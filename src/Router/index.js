@@ -8,8 +8,8 @@ router.get('/sisira', (req, res) => {
     res.send(" Hey Puppala, our service is running ")
 })
 
-router.post('/create-database', DatabaseController.createDatabase)
-router.post('/create-table', DatabaseController.createTables)
-router.post('/setup', WalletController.createWallet)
+router.post('/create-database',     DatabaseController.createDatabase)
+router.post('/create-table',        DatabaseController.createTables)
+router.post('/setup',               WalletController.createWallet)
 
 module.exports = router
