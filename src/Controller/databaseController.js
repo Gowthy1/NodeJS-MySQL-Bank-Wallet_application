@@ -1,4 +1,4 @@
-const CreateResource = require('./../Models/createResource')
+const CreateResource = require('../Models/createResource')
 
 class DatabaseController {
     static async createDatabase(req, res) {

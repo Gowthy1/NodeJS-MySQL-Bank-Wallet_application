@@ -1,12 +1,10 @@
 const express = require('express')
 const router  = express.Router()
 
-const WalletController = require('./../Controller/index')
-const DatabaseController = require('./../Controller/databaseController')
+const { DatabaseController, WalletController } = require('./../Controller/index')
 
 router.get('/sisira', (req, res) => {
     console.log(' SERVICE IS RUNINNG ')
-
     res.send(" Hey Puppala, our service is running ")
 })
 
