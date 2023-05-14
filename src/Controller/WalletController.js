@@ -1,4 +1,7 @@
 const WalletService = require('./../Service/index')
+const Errors        = require('./../Errors/index')
+const { httpStatusCode } = require('./../constants')
+const { OK, CREATED, BAD_REQUEST, NOT_FOUND }   = httpStatusCode
 
 class WalletController {
 
@@ -31,14 +34,16 @@ class WalletController {
 
     static async createTransaction(req, res) {
         try{
-            if(req?.params?.walletId && req?.body?.amount && req?.body?.description){
+            if(req?.params?.walletId 
+                && req?.body?.amount 
+                && req?.body?.description){
                 const walletId      = req.params.walletId
                 const amount        = Number(req.body.amount)
                 const description   = req.body.description
     
-                const response = WalletService.createTransaction(walletId, amount, description)
+                const response = await WalletService.createTransaction(walletId, amount, description)
                 console.log(' Transaction response: ', response)
-                res.status(CREATED).send(response)
+                res.status(CREATED).json(response)
             }else{
                 const errorResponse = []
     
@@ -52,7 +57,7 @@ class WalletController {
                     errorResponse.push(Errors.DESCRIPTION_MISSING)
                 }
     
-                res.status(BAD_REQUEST).send({message: errorResponse})
+                res.status(BAD_REQUEST).json({message: errorResponse})
             }
         } catch(error) {
             console.log('[Ctrl] Error in createTransactionCtrl: ', error)
@@ -62,12 +67,12 @@ class WalletController {
 
     static async fetchTransactions(req, res) {
         try{
-            if(req?.query?.walletId && req?.body?.amount && req?.body?.description){
-                const walletId      = req.params.walletId
-                const amount        = Number(req.body.amount)
-                const description   = req.body.description
+            if(req?.query?.walletId){
+                const walletId      = req.query.walletId
+                const skip          = parseInt(req.query.skip) || 0; 
+                const limit         = parseInt(req.query.limit) || 10;
     
-                const response = WalletService.fetchTransaction(walletId, amount, description)
+                const response = await WalletService.fetchTransaction(walletId, skip, limit)
                 console.log(' Transaction response: ', response)
                 res.status(CREATED).send(response)
             }else{
@@ -94,11 +99,9 @@ class WalletController {
     static async fetchWalletById(req, res) {
         try{
             if(req?.params?.id){
-                const walletId      = req.params.id
-                const amount        = Number(req.body.amount)
-                const description   = req.body.description
+                const walletId = req.params.id
     
-                const response = WalletService.fetchWallet(walletId, amount, description)
+                const response = await WalletService.fetchWalletById(walletId)
                 console.log(' Transaction response: ', response)
                 res.status(CREATED).send(response)
             }else{
@@ -110,7 +113,7 @@ class WalletController {
                 res.status(BAD_REQUEST).send({message: errorResponse})
             }
         } catch(error) {
-            console.log('[Ctrl] Error in createTransactionCtrl: ', error)
+            console.log('[Ctrl] Error in fetchWalletByIdCtrl: ', error)
             res.status(NOT_FOUND).send({message:error.message})
         }
     }

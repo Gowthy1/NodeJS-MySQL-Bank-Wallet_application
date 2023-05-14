@@ -5,8 +5,8 @@ const SERVERPORT = 3000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use('/', Route)
 
+app.use('/api', Route)
 
 app.listen( SERVERPORT, () => {
     console.log(' ********** Service Started ************ ')
