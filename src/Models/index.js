@@ -45,6 +45,7 @@ const createTransaction = async (walletId, amount, description) => {
     console.log(' Selected Row -> ', selectRow[0])
     console.log(' Selected Row -> ', selectRow[0][0].BALANCE)
     let updatedBalance = (selectRow[0]?.[0]?.BALANCE ?? 0) + amount
+    updatedBalance = updatedBalance.toFixed(4)
 
     console.log(' UpdatedBalance: ', updatedBalance)
 
