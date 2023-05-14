@@ -1,8 +1,8 @@
 const dbConfig = {
     HOST: 'localhost',
     USER: 'root',
-    PASSWORD: 'password',
-    DATABASE: 'wallet'
+    PASSWORD: 'rootroot',
+    DATABASE: 'WALLET'
 }
 
 module.exports = dbConfig

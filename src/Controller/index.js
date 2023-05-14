@@ -1,4 +1,4 @@
-const WalletController = require('./../Controller/index')
+const WalletController = require('./../Controller/WalletController')
 const DatabaseController = require('../Controller/databaseController')
 
 module.exports = {

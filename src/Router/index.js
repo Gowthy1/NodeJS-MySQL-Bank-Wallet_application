@@ -11,5 +11,8 @@ router.get('/sisira', (req, res) => {
 router.post('/create-database',     DatabaseController.createDatabase)
 router.post('/create-table',        DatabaseController.createTables)
 router.post('/setup',               WalletController.createWallet)
+router.post('/transact/:walletId',  WalletController.createTransaction)
+router.get('/transactions?walletId',WalletController.fetchTransactions);
+router.get('/wallet/:id',           WalletController.fetchWalletById);
 
 module.exports = router

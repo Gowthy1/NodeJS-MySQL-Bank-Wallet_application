@@ -1,4 +1,3 @@
-const walletModel   = require('./../Models/index')
 const WalletService = require('./../Service/index')
 
 class WalletController {
@@ -27,6 +26,92 @@ class WalletController {
                 message: ' ERROR IN CREATION',
                 error: error
             })
+        }
+    }
+
+    static async createTransaction(req, res) {
+        try{
+            if(req?.params?.walletId && req?.body?.amount && req?.body?.description){
+                const walletId      = req.params.walletId
+                const amount        = Number(req.body.amount)
+                const description   = req.body.description
+    
+                const response = WalletService.createTransaction(walletId, amount, description)
+                console.log(' Transaction response: ', response)
+                res.status(CREATED).send(response)
+            }else{
+                const errorResponse = []
+    
+                if(req.params.walletId === undefined){
+                    errorResponse.push(Errors.WALLETID_MISSING)
+                }
+                if(req.body.amount === undefined){
+                    errorResponse.push(Errors.AMOUNT_MISSING)
+                }
+                if(req.body.description === undefined){
+                    errorResponse.push(Errors.DESCRIPTION_MISSING)
+                }
+    
+                res.status(BAD_REQUEST).send({message: errorResponse})
+            }
+        } catch(error) {
+            console.log('[Ctrl] Error in createTransactionCtrl: ', error)
+            res.status(NOT_FOUND).send({message:error.message})
+        }
+    }
+
+    static async fetchTransactions(req, res) {
+        try{
+            if(req?.query?.walletId && req?.body?.amount && req?.body?.description){
+                const walletId      = req.params.walletId
+                const amount        = Number(req.body.amount)
+                const description   = req.body.description
+    
+                const response = WalletService.fetchTransaction(walletId, amount, description)
+                console.log(' Transaction response: ', response)
+                res.status(CREATED).send(response)
+            }else{
+                const errorResponse = []
+    
+                if(req.params.walletId === undefined){
+                    errorResponse.push(Errors.WALLETID_MISSING)
+                }
+                if(req.body.amount === undefined){
+                    errorResponse.push(Errors.AMOUNT_MISSING)
+                }
+                if(req.body.description === undefined){
+                    errorResponse.push(Errors.DESCRIPTION_MISSING)
+                }
+    
+                res.status(BAD_REQUEST).send({message: errorResponse})
+            }
+        } catch(error) {
+            console.log('[Ctrl] Error in createTransactionCtrl: ', error)
+            res.status(NOT_FOUND).send({message:error.message})
+        }
+    }
+
+    static async fetchWalletById(req, res) {
+        try{
+            if(req?.params?.id){
+                const walletId      = req.params.id
+                const amount        = Number(req.body.amount)
+                const description   = req.body.description
+    
+                const response = WalletService.fetchWallet(walletId, amount, description)
+                console.log(' Transaction response: ', response)
+                res.status(CREATED).send(response)
+            }else{
+                const errorResponse = []
+    
+                if(req.params.walletId === undefined){
+                    errorResponse.push(Errors.WALLETID_MISSING)
+                }    
+                res.status(BAD_REQUEST).send({message: errorResponse})
+            }
+        } catch(error) {
+            console.log('[Ctrl] Error in createTransactionCtrl: ', error)
+            res.status(NOT_FOUND).send({message:error.message})
         }
     }
 }
