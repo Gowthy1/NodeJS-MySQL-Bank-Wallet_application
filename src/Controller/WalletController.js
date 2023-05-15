@@ -21,7 +21,6 @@ class WalletController {
             }
 
             const result = await WalletService.createWallet(req.body.balance, req.body.name)
-            console.log('[ctrl] Create Wallet ', result)
             res.status(201).send({ message: result })
         } catch (error) {
             console.error(' Error in creating wallet : ', error);
@@ -60,7 +59,7 @@ class WalletController {
                 res.status(BAD_REQUEST).json({message: errorResponse})
             }
         } catch(error) {
-            console.log('[Ctrl] Error in createTransactionCtrl: ', error)
+            console.log('[Ctrl] Error in createTransaction: ', error)
             res.status(NOT_FOUND).send({message:error.message})
         }
     }
@@ -73,7 +72,6 @@ class WalletController {
                 const limit         = parseInt(req.query.limit) || 10;
     
                 const response = await WalletService.fetchTransaction(walletId, skip, limit)
-                console.log(' Transaction response: ', response)
                 res.status(CREATED).send(response)
             }else{
                 const errorResponse = []
@@ -91,7 +89,7 @@ class WalletController {
                 res.status(BAD_REQUEST).send({message: errorResponse})
             }
         } catch(error) {
-            console.log('[Ctrl] Error in createTransactionCtrl: ', error)
+            console.log('[Ctrl] Error in fetchTransactions: ', error)
             res.status(NOT_FOUND).send({message:error.message})
         }
     }
@@ -113,7 +111,7 @@ class WalletController {
                 res.status(BAD_REQUEST).send({message: errorResponse})
             }
         } catch(error) {
-            console.log('[Ctrl] Error in fetchWalletByIdCtrl: ', error)
+            console.log('[Ctrl] Error in fetchWalletById: ', error)
             res.status(NOT_FOUND).send({message:error.message})
         }
     }

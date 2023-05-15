@@ -3,9 +3,8 @@ const router  = express.Router()
 
 const { DatabaseController, WalletController } = require('./../Controller/index')
 
-router.get('/sisira', (req, res) => {
-    console.log(' SERVICE IS RUNINNG ')
-    res.send(" Hey Puppala, our service is running ")
+router.get('/ping', (req, res) => {
+    res.send(" SERVICE IS RUNINNG ")
 })
 
 router.post('/create-database',     DatabaseController.createDatabase)
