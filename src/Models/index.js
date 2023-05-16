@@ -8,7 +8,7 @@ const insertWallet = async (balance, name) => {
 
     const walletId = ULID.ulid()
 
-    const insertResult = await connection.query(
+    await connection.query(
       `INSERT INTO WALLET_INFO ( WALLET_ID, NAME, BALANCE, CREATION_DATE) VALUES(?, ?, ?, ?)`,
       [walletId, name, balance, date]
     )
@@ -28,7 +28,7 @@ const insertWallet = async (balance, name) => {
 const createTransaction = async (walletId, amount, description) => {
   try {
     const connection = await dbConnection()
-    const date = new Date()
+
 
     const transactionId = ULID.ulid()
 
@@ -42,13 +42,13 @@ const createTransaction = async (walletId, amount, description) => {
     let updatedBalance = (selectRow[0]?.[0]?.BALANCE ?? 0) + amount
     updatedBalance = updatedBalance.toFixed(4)
 
-    const updateRow = await connection.query(
+    await connection.query(
       ' UPDATE WALLET_INFO SET BALANCE = ? WHERE WALLET_ID = ?',
       [ updatedBalance, walletId ]
     )
 
     const type = amount < 0 ? 'DEBIT' : 'CREDIT'
-    const insertResult = await connection.query(
+    await connection.query(
       `INSERT INTO TRANSACTION_INFO ( TRANSACTION_ID, WALLET_ID, AMOUNT, DESCRIPTION, TYPE, BALANCE) VALUES(?, ?, ?, ?, ?, ?)`,
       [ transactionId, walletId, amount, description, type, updatedBalance]
     )
