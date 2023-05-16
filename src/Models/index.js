@@ -12,15 +12,12 @@ const insertWallet = async (balance, name) => {
       `INSERT INTO WALLET_INFO ( WALLET_ID, NAME, BALANCE, CREATION_DATE) VALUES(?, ?, ?, ?)`,
       [walletId, name, balance, date]
     )
-    console.log(' INSERT Successful ', insertResult)
-    console.log(' INSERT ---> ', insertResult[0].insertId)
 
     const selectInsertedRow = await connection.query(
       `SELECT * FROM WALLET_INFO WHERE WALLET_ID = ?`,
       [walletId]
     )
 
-    console.log(' RESULT: ', selectInsertedRow[0])
     return selectInsertedRow[0]?.[0]
   } catch (error) {
     console.error(' FAILED in inserting wallet: ', error)
@@ -42,30 +39,22 @@ const createTransaction = async (walletId, amount, description) => {
       [walletId]
     )
 
-    console.log(' Selected Row -> ', selectRow[0])
-    console.log(' Selected Row -> ', selectRow[0][0].BALANCE)
     let updatedBalance = (selectRow[0]?.[0]?.BALANCE ?? 0) + amount
     updatedBalance = updatedBalance.toFixed(4)
-
-    console.log(' UpdatedBalance: ', updatedBalance)
 
     const updateRow = await connection.query(
       ' UPDATE WALLET_INFO SET BALANCE = ? WHERE WALLET_ID = ?',
       [ updatedBalance, walletId ]
     )
 
-    console.log(' updateRow---> ', updateRow[0])
-
     const type = amount < 0 ? 'DEBIT' : 'CREDIT'
     const insertResult = await connection.query(
       `INSERT INTO TRANSACTION_INFO ( TRANSACTION_ID, WALLET_ID, AMOUNT, DESCRIPTION, TYPE, BALANCE) VALUES(?, ?, ?, ?, ?, ?)`,
       [ transactionId, walletId, amount, description, type, updatedBalance]
     )
-    console.log(' INSERT Successful ', insertResult)
 
     await connection.commit()
 
-    console.log(' RESULT--> : ', transactionId, updatedBalance )
     return { transactionId, balance: updatedBalance }
   } catch (error) {
     console.error(' FAILED in inserting wallet: ', error)
@@ -82,7 +71,6 @@ const fetchTransactions = async (walletId, skip, limit) => {
       [walletId, limit, skip]
     )
 
-    console.log(' RESULTANAT: ', fetchTransactions)
     return fetchTransactions[0]
   } catch(error){
     console.error(' FAILED in getTransactions: ', error)
@@ -99,7 +87,6 @@ const fetchWalletById = async (walletId) => {
       [walletId]
     )
 
-    console.log(' fetchWallet : ', fetchWallet)
     return fetchWallet[0]
   } catch(error){
     console.error(' FAILED in fetchWalletById: ', error)

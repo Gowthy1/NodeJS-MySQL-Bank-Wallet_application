@@ -41,7 +41,6 @@ class WalletController {
                 const description   = req.body.description
     
                 const response = await WalletService.createTransaction(walletId, amount, description)
-                console.log(' Transaction response: ', response)
                 res.status(CREATED).json(response)
             }else{
                 const errorResponse = []
@@ -100,7 +99,6 @@ class WalletController {
                 const walletId = req.params.id
     
                 const response = await WalletService.fetchWalletById(walletId)
-                console.log(' Transaction response: ', response)
                 res.status(CREATED).send(response)
             }else{
                 const errorResponse = []
